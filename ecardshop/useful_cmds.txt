@@ -1,0 +1,22 @@
+-- Start a MySQL client
+cd /usr/local/mysql/bin
+./mysql -u myuser -p
+-- Run the backup script to recreate the database
+mysql> drop database if exists ecardshop;
+mysql> source ~/myWebProject/backup_ecardshop.sql
+
+-- Start a NEW "terminal"
+cd /usr/local/mysql/bin
+./mysqldump -u myuser -p --databases studentdb > ~/myWebProject/backup_studentdb.sql
+     // ~ denotes the home directory of the current login user
+
+cd ~/myWebProject/tomcat/bin  // Change directory to your Tomcat's binary directory
+./catalina.sh run             // Run catalina.sh to start tomcat server
+
+cd ~/myWebProject/tomcat/bin  // Change current directory to Tomcat's bin directory
+./shutdown.sh                 // Run shutdown.sh to shutdown the server
+
+// For macOS: Assume that Tomcat is installed in "~/myWebProject/tomcat"
+cd ~/myWebProject/tomcat/webapps/ecardshop/WEB-INF/classes
+// Need to use $HOME instead of ~ in the "javac" command
+javac -cp .:$HOME/myWebProject/tomcat/lib/servlet-api.jar CardshopQueryServlet.java
